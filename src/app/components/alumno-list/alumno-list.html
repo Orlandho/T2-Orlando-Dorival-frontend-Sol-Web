@@ -1,0 +1,53 @@
+<div class="container">
+  <header class="header">
+    <h2>Gestión Académica de Alumnos</h2>
+    <p class="subtitle">Evaluación T2 - Soluciones Web y Aplicaciones Distribuidas</p>
+  </header>
+
+  <div class="alert-error" *ngIf="errorMessage">
+    <strong>Error:</strong> {{ errorMessage }}
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    Cargando alumnos...
+  </div>
+
+  <div class="table-responsive" *ngIf="!loading && alumnos.length > 0">
+    <table class="table-alumnos">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombres</th>
+          <th>Carrera</th>
+          <th>Ciclo</th>
+          <th>Promedio</th>
+          <th>Estado Académico</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let alumno of alumnos">
+          <td>{{ alumno.id }}</td>
+          <td>{{ alumno.nombres }}</td>
+          <td>{{ alumno.carrera }}</td>
+          <td>{{ alumno.ciclo }}</td>
+          <td>{{ alumno.promedio | number:'1.1-2' }}</td>
+          <td>
+            <span [ngClass]="alumno.estadoAcademico === 'REGULAR' ? 'badge badge-regular' : 'badge badge-riesgo'">
+              {{ alumno.estadoAcademico }}
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-delete" (click)="eliminar(alumno.id)">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="empty-state" *ngIf="!loading && alumnos.length === 0 && !errorMessage">
+    No se encontraron alumnos registrados en el sistema.
+  </div>
+</div>
