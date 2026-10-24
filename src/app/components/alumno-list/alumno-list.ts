@@ -38,8 +38,9 @@ export class AlumnoListComponent implements OnInit {
   }
 
   eliminar(id: number | undefined): void {
-    if (!id) return;
+    if (id === undefined || id === null) return;
     if (confirm(`¿Está seguro de eliminar al alumno con ID ${id}?`)) {
+      this.errorMessage = '';
       this.alumnoService.eliminar(id).subscribe({
         next: () => {
           this.alumnos = this.alumnos.filter(a => a.id !== id);

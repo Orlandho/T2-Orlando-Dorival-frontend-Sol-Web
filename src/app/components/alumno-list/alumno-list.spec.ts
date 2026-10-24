@@ -66,4 +66,15 @@ describe('AlumnoListComponent', () => {
     expect(alumnoServiceSpy.eliminar).not.toHaveBeenCalled();
     expect(component.alumnos.length).toBe(2);
   });
+
+  it('should set error message if delete fails', () => {
+    vi.spyOn(window, 'confirm').mockReturnValue(true);
+    alumnoServiceSpy.eliminar.mockReturnValue(throwError(() => new Error('Delete failed')));
+
+    component.alumnos = [...mockAlumnos];
+    component.eliminar(2);
+
+    expect(component.errorMessage).toContain('Ocurrió un error al intentar eliminar el alumno en el backend.');
+    expect(component.alumnos.length).toBe(2);
+  });
 });
